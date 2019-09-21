@@ -1,0 +1,7 @@
+        int koll = 0;
+        for(char k : S){
+            if(J.find(k) != string::npos){
+                koll++;
+            }
+        }
+        return koll;
