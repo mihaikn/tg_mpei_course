@@ -1,0 +1,16 @@
+class Solution {
+public:
+    
+    int easymath(double x, double m){
+        if(abs(m*m - x) <= 0.00001){
+            return m;
+        }
+        
+        double newm = m - (m*m - x)/(2*m);
+        return easymath(x,newm);
+    }
+    
+    int mySqrt(int x) {
+       return easymath(x,1);
+    }
+};
