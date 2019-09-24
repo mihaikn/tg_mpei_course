@@ -1,0 +1,130 @@
+//https://leetcode.com/problems/hamming-distance/
+class Solution {
+public:
+    int hammingDistance(int x, int y) {
+	int s, n, m,j;
+	int* t;
+	int* g;
+		s = x;
+		int i = 0;
+		bool fl = true;
+		if (x != 0) {
+			while (fl)
+			{
+				s = s - pow(2, i);
+				if (s < 0)
+					fl = false;
+				else
+				{
+					s = x;
+					i++;
+				}
+			}
+		}
+		else
+			i = 1;
+		t = new int[i];
+		n = i;
+		if (x == 0)
+			t[0] = 0;
+		else {
+			i--;
+			t[0] = 1;
+			x = x - pow(2, i);
+			j = 1;
+			i--;
+			fl = true;
+			s = x;
+			while (j != n)
+			{
+				s = x - pow(2, i);
+				if (s < 0)
+				{
+					t[j] = 0;
+					j++;
+					i--;
+				}
+				else
+				{
+					t[j] = 1;
+					j++;
+					x = x - pow(2, i);
+					i--;
+				}
+			}
+		}
+				s = y;
+				 i = 0;
+				 fl = true;
+				 if (y != 0) {
+					 while (fl) {
+						 s = s - pow(2, i);
+						 if (s < 0)
+							 fl = false;
+						 else
+						 {
+							 s = y;
+							 i++;
+						 }
+					 }
+				 }
+				 else
+					 i = 1;
+				g = new int[i];
+				m = i;
+				j = 1;
+				if (y == 0)
+					g[0] = 0;
+				else {
+					i--;
+					g[0] = 1;
+					y = y - pow(2, i);
+					j = 1;
+					i--;
+					fl = true;
+					s = y;
+					while (j != m) {
+						s = y - pow(2, i);
+						if (s < 0)
+						{
+							g[j] = 0;
+							j++;
+							i--;
+						}
+						else
+						{
+							g[j] = 1;
+							j++;
+							y = y - pow(2, i);
+							i--;
+						}
+					}
+				}
+
+				s = 0;
+				if (n > m) {
+					for (int i = 0; i < n - m;i++) {
+						if (t[i] == 1)
+							s++;
+					}
+					for (int i = 0; i < m; i++)
+						if (t[i + n - m] != g[i])
+							s++;
+				}
+				else if (n < m)
+				{
+					for (int i=0; i < m - n; i++) {
+						if (g[i] == 1)
+							s++;
+					}
+					for (int i = 0; i < n; i++)
+						if (g[i + m - n] != t[i])
+							s++;
+				}
+				else
+					for (int i = 0; i < n; i++)
+						if (t[i] != g[i])
+							s++;
+        return(s);
+    }
+};

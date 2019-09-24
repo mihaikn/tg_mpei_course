@@ -1,0 +1,34 @@
+//https://leetcode.com/problems/powx-n/
+class Solution {
+public:
+    double myPow(double x, int n) {
+        	double s,k;
+	int l;
+	if (n == 0)
+		return 1.0;
+	if (x == 1.0)
+		return x;
+	if (x == -1.0)
+		return n % 2 == 0 ? 1.0 : -1.0;
+	if (n == -2147483648)
+		return 0.0;
+	s = x;
+	l = 0;
+	k = 1;
+		bool fl = true;;
+	while (fl) {
+		s = s * s;
+		k *= 2;
+			if (k == n)
+				fl = false;
+			else if(k>n){
+				l = k - n;
+				for (int i = 0; i < l; i++)
+					s /= x;
+				fl = false;
+		}
+	}
+        return s;
+        
+    }
+};

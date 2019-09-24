@@ -1,0 +1,14 @@
+//https://leetcode.com/problems/jewels-and-stones/
+class Solution {
+public:
+    int numJewelsInStones(string J, string S) {
+                int koll = 0;
+        for(char k : S){
+            if(J.find(k) != string::npos){
+                koll++;
+            }
+        }
+        return koll;
+        
+    }
+};
