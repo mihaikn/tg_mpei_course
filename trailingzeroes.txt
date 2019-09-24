@@ -1,5 +1,0 @@
-                int koll(0);
-        while (n) {
-            koll += n /= 5;
-        }
-        return koll;
