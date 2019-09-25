@@ -1,0 +1,21 @@
+https://leetcode.com/problems/sqrtx/
+class Solution {
+public:
+    int mySqrt(int x) {
+        double l = 0.0;
+        double r = x * 1.0;
+        double m = 0;
+        if(x==0)
+            return(0);
+        if(x==1)
+            return(1);
+        for(int i = 0; i < 200; i++) {
+            m = (r + l) / 2;
+            if (m * m < x)
+                l = m;
+            else
+                r = m;
+        }
+        return trunc(m);
+    }
+};
