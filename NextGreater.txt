@@ -1,0 +1,45 @@
+httpsleetcode.comproblemsnext-greater-node-in-linked-list
+
+  Definition for singly-linked list.
+  struct ListNode {
+      int val;
+      ListNode next;
+      ListNode(int x)  val(x), next(NULL) {}
+  };
+ 
+class Solution {
+public
+    vectorint nextLargerNodes(ListNode head) {
+        vectorint list;
+        vectorint list2;
+        ListNode p = head;
+        if (!head)
+            return list;
+        if (!head-next) {
+            list.push_back(0);
+            return list;
+        }
+        while (p != NULL) {
+            list2.push_back(p-val);
+            p = p-next;
+        }
+        for (int i = list2.size() - 2; i  0; i--)
+            if (list2[i]  list2[i + 1])
+                list2[i] = list2[i + 1];
+        int j = 1;
+        while (head-next != NULL) {
+            p = head-next;
+            if (head-val = list2[j])
+                list.push_back(0);
+            else {
+                while (p-val = head-val)
+                    p = p-next;
+                list.push_back(p-val);
+            }
+            head = head-next;
+            j++;
+        }
+        list.push_back(0);
+        return list;
+    }
+};
