@@ -1,0 +1,69 @@
+https://leetcode.com/problems/split-linked-list-in-parts/
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int Koll_of_elements(ListNode* root) { 
+        ListNode* cur = root;
+        int k = 0;
+		
+        while (cur) {
+            cur = cur->next;
+            k++;
+        }
+        return k;
+    }
+    
+    void Obrabotka(vector<ListNode*>& list, int pos, ListNode **head, int groupsize) {
+        ListNode* cur = *head;
+        
+        ListNode begin(0);
+        ListNode* begin1 = &begin;
+        
+        for (int i = 0; i < groupsize; i++) {
+            if (!cur) 
+                break;
+            begin1->next = cur;
+            cur = cur->next;
+            
+            begin1 = begin1->next;
+        }
+        
+        begin1->next = nullptr;
+        
+        *head = cur;
+        list[pos] = begin.next;
+        
+    }
+    
+    vector<ListNode*> splitListToParts(ListNode* root, int k) {
+        
+        int koll_of_elements = Koll_of_elements(root);
+        int koll_of_groups = koll_of_elements/k;
+        int koll_of_ostat = koll_of_elements % k;
+        int osta_Lists = koll_of_ostat % k;
+        
+        vector<ListNode*> list(k);
+        
+        ListNode* cur = root;
+        
+        for (int i = 0; i < k; i++) {
+            int groupsize = koll_of_groups;
+            if (osta_Lists > 0) {
+                groupsize += 1;
+                osta_Lists--;
+            }
+            
+            Obrabotka(list, i, &cur, groupsize);
+        }
+        
+        return list;
+        
+    }
+};
