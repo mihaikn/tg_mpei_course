@@ -1,0 +1,39 @@
+https://leetcode.com/problems/number-of-islands/
+class Solution {
+public:
+	int numIslands(vector<vector<char>>& greed) {
+		if (greed.empty())
+			return 0;
+		int m = greed.size();
+		int n = greed[0].size();
+		bool visited[m][n];
+		for (int i = 0; i < m; i++)
+			for (int j = 0; j < n; j++)
+				visited[i][j] = false;
+		int d[4][2] = { {1, 0}, {-1, 0}, {0, 1}, {0, -1} };
+		queue<pair<int, int>> tmp;
+		int nums = 0;
+
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				if (greed[i][j] == '1' && visited[i][j] == false) {
+					tmp.push(make_pair(i, j));
+					visited[i][j] = true;
+					nums++;
+					while (!tmp.empty()) {
+						for (int k = 0; k < 4; k++) {
+							int a = tmp.front().first + d[k][0];
+							int b = tmp.front().second + d[k][1];
+							if (0 <= a && a < m && 0 <= b && b < n && greed[a][b] == '1' && visited[a][b] == false) {
+								tmp.push(make_pair(a, b));
+								visited[a][b] = true;
+							}
+						}
+						tmp.pop();
+					}
+				}
+			}
+		}
+		return nums;
+	}
+};
