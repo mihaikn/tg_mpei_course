@@ -1,0 +1,24 @@
+https://leetcode.com/problems/maximum-difference-between-node-and-ancestor/
+class Solution {
+public:
+	int ansector = INT_MIN;
+	void travel(TreeNode* root, int rootVal) {
+		if (!root) return;
+
+		ansector = max(abs(root->val - rootVal), ansector);
+
+		travel(root->left, rootVal);
+		travel(root->right, rootVal);
+	}
+	int maxAncestorDiff(TreeNode* root) {
+		if (!root) return 0;
+		int rootVal = root->val;
+		travel(root->left, rootVal);
+		travel(root->right, rootVal);
+
+		maxAncestorDiff(root->left); maxAncestorDiff(root->right);
+
+
+		return ansector;
+	}
+};
