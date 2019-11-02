@@ -1,0 +1,18 @@
+https://leetcode.com/problems/path-sum/
+class Solution {
+public:
+    bool hasPathSum(TreeNode* node, int sum) {
+        bool match = false;
+        
+        if (node == nullptr)
+            return false;
+        else if (sum-node->val == 0 && !node->left && !node->right)
+            return true;
+        else{
+            match |= hasPathSum(node->left, sum-node->val);
+            match |= hasPathSum(node->right, sum-node->val);
+        }
+
+        return match;
+    }
+};
