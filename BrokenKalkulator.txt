@@ -1,0 +1,11 @@
+https://leetcode.com/problems/broken-calculator/
+class Solution {
+public:
+    int brokenCalc(int a, int b) {
+        if(a>=b)    return a-b;
+        if(b%2)
+            return brokenCalc(a, b+1)+1;
+        else
+            return brokenCalc(a, b/2)+1;
+    }
+};
