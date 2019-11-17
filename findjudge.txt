@@ -1,0 +1,18 @@
+https://leetcode.com/problems/find-the-town-judge/
+class Solution {
+public:
+	int findJudge(int N, vector<vector<int>>& trust) {
+		vector<int> voted(N, 0), voteTo(N, 0);
+
+		for (const auto& profile : trust) {
+			++voted[profile[0]-1];
+			++voteTo[profile[1]-1];
+		}
+
+		for (size_t i=0; i<N; ++i)
+			if (voteTo[i] == N-1 && voted[i] == 0)
+				return i+1;
+
+		return -1;
+	}
+};
