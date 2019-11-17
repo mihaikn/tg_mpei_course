@@ -1,0 +1,23 @@
+https://leetcode.com/problems/remove-duplicates-from-sorted-array/
+class Solution {
+public:
+
+        int removeDuplicates(vector<int>& nums) {
+        int l=nums.size();
+        if(l<2)
+            return l;
+        int i=0,j=1;
+        while(j<l)
+        {
+            if(nums.at(i)!=nums.at(j))
+            {
+                
+                nums.at(i+1)=nums.at(j);
+                i++;
+            }
+            j++;
+        }
+        return i+1;
+    }
+        
+    };
