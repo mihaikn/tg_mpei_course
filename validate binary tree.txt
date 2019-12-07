@@ -1,0 +1,16 @@
+https://leetcode.com/problems/validate-binary-search-tree/
+class Solution {
+public:
+    bool recursiveIsValidBST(TreeNode* root, long max, long min) {
+        if(!root) return true;
+        long val = root->val;
+        if(val <= min || val >= max) {
+            return false;
+        }
+        return  recursiveIsValidBST(root->right, max, std::max(val, min))
+                && recursiveIsValidBST(root->left, std::min(max, val), min); 
+    }
+    bool isValidBST(TreeNode* root) { 
+        return recursiveIsValidBST(root, LONG_MAX, LONG_MIN);
+    }
+};
