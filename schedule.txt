@@ -1,47 +1,39 @@
-https://leetcode.com/problems/course-schedule/
-struct Node {
-    int course;
-    unordered_set<Node*> outEdge;
-    int inDegree;
-    Node( int course ) : course( course ), inDegree(0) {}
-};
-
+https://leetcode.com/problems/course-schedule-ii/
 class Solution {
 public:
-    bool canFinish( int numCourses, vector<vector<int>> &prerequisites ) {
-        vector<Node*> nodes;
-        for( int i=0; i < numCourses; i++ ) {
-            nodes.push_back( new Node( i ) );
-        }
-
-        for( auto edge : prerequisites ) {
-            nodes[ edge[1] ]->outEdge.insert( nodes[ edge[0] ] );
-            nodes[ edge[0] ]->inDegree++;
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<vector<int>> neighbors(numCourses);
+        vector<int> n_prereqs(numCourses);
+        
+        for (vector<int>& prereq : prerequisites) {
+            neighbors[prereq[1]].push_back(prereq[0]);
+            ++n_prereqs[prereq[0]];
         }
         
-        // queue has nodes with inDegree = 0
-        queue<Node*> q;
-        for( auto node : nodes ) {
-            if( node->inDegree == 0 ) {
-                q.push( node );
+        std::vector<int> path;
+        std::queue<int> to_visit;
+        for (int i = 0; i < numCourses; ++i) {
+            if (n_prereqs[i] == 0) {
+                to_visit.push(i);
+                path.push_back(i);
             }
         }
         
-        int visitedCount = 0;
-        Node *curr = NULL;
-        while( !q.empty() ) {
-            curr = q.front(); q.pop();
-            for( auto neighbour : curr->outEdge ) {
-                --neighbour->inDegree;
-                if( neighbour->inDegree == 0 ) {
-                    q.push( neighbour );
+        while (!to_visit.empty()) {
+            if (path.size() == numCourses) return path;
+            int current = to_visit.front();
+            to_visit.pop();
+            
+            vector<int>& current_neighbors = neighbors[current];
+            for (int neighbor : current_neighbors) {
+                --n_prereqs[neighbor];
+                if (n_prereqs[neighbor] == 0) {
+                    to_visit.push(neighbor);
+                    path.push_back(neighbor);
                 }
             }
-            visitedCount++;
         }
-        if( visitedCount == numCourses ) {
-            return true;
-        }
-        return false;
+        
+        return {};
     }
 };
