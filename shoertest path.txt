@@ -1,0 +1,29 @@
+https://leetcode.com/problems/shortest-path-with-alternating-colors/
+class Solution {
+public:
+    vector<int> shortestAlternatingPaths(int n, vector<vector<int>>& red_edges, vector<vector<int>>& blue_edges) {
+        vector<vector<pair<int, int>>> graph(n);
+        for(auto e : red_edges)  graph[e[0]].push_back({e[1], 0});
+        for(auto e : blue_edges)  graph[e[0]].push_back({e[1], 1});
+        vector<vector<bool>> visited(n, vector(2, false));
+        queue<pair<int, int>> q;
+        vector<int> res(n, -1);
+        q.push({0, -1});
+        int cur_length = 0;
+        while(!q.empty()){
+            int s = q.size();
+            for(int i = 0; i < s; ++i){
+                auto cur = q.front();  q.pop();
+                if(res[cur.first] == -1)  res[cur.first] = cur_length;
+                for(auto n : graph[cur.first]){
+                    if(n.second != cur.second && !visited[n.first][n.second]){
+                        visited[n.first][n.second] = true;
+                        q.push(n);
+                    }
+                }
+            }
+            cur_length++;
+        }
+        return res;
+    }
+};

@@ -1,0 +1,44 @@
+https://leetcode.com/problems/rotting-oranges/
+class Solution {
+    vector<pair<int,int>> direction = {{0,1},{0,-1},{1,0},{-1,0}};
+    
+public:
+    int orangesRotting(vector<vector<int>>& grid) {
+        queue<pair<int,int>> que;
+
+        int fresh_cnt = 0;
+        for(int i=0; i<grid.size();i++){
+            for (int j=0; j<grid[0].size();j++){
+                if (grid[i][j] == 2) que.push({i,j});
+                if(grid[i][j] == 1) fresh_cnt ++;
+            }
+        }
+        int mins = 0;
+        int cnt = 0;
+        bool flag = 0;  // with flag check if at some BFS level cannot find any fresh orange
+        while(!que.empty()){
+            int sizz = que.size();
+            flag = 0;
+            for(int i=0; i<sizz; i++){
+                pair<int,int> cur = que.front();
+                que.pop();
+                
+                for (auto dir:direction){
+                    int cur_x = cur.first+dir.first;
+                    int cur_y = cur.second + dir.second;
+                    if(cur_x<0 or cur_x>=grid.size() or cur_y<0 or cur_y>=grid[0].size() or
+                      grid[cur_x][cur_y] == 0 or grid[cur_x][cur_y] == 2) continue;
+                    que.push({cur_x,cur_y});
+                    grid[cur_x][cur_y] = 2;
+                    flag = 1;//fresh orange found
+                    cnt ++;
+                }
+                
+            }
+            if(flag) mins++;//if cant find any fresh orange, break out, no need to mins++
+            else break;
+        }
+        if (cnt == fresh_cnt) return mins;
+        else return -1;
+    }
+};
