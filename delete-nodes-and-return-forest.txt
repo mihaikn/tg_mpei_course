@@ -1,0 +1,42 @@
+https://leetcode.com/problems/delete-nodes-and-return-forest/
+class Solution {
+private:
+    void dfs(TreeNode* root, TreeNode* parent, bool left, unordered_set<int>& to_delete, vector<TreeNode*>& ans) {
+        if (!root) {
+            return;
+        }
+        if (to_delete.count(root->val)) {
+            if (parent) {
+                if (left) {
+                    parent->left = NULL;
+                } else {
+                    parent->right = NULL;
+                }
+            }
+            dfs(root->left, root, true, to_delete, ans);
+            if (root->left) {
+                ans.push_back(root->left);
+            }
+            
+            dfs(root->right, root, false, to_delete, ans);
+            if (root->right) {
+                ans.push_back(root->right);
+            }
+        } else {
+            dfs(root->left, root, true, to_delete, ans);
+            dfs(root->right, root, false, to_delete, ans);
+        }
+    }
+    
+public:
+    vector<TreeNode*> delNodes(TreeNode* root, vector<int>& to_delete) {
+        vector<TreeNode*> ans;
+        unordered_set<int> to_delete_set(to_delete.begin(), to_delete.end());
+        dfs(root, nullptr, true, to_delete_set, ans);
+        if (!to_delete_set.count(root->val)) {
+            ans.push_back(root);
+        }
+        
+        return ans;
+    }
+};
